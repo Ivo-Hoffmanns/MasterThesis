@@ -1,0 +1,36 @@
+PROGRAM PLC_PRG
+VAR
+	initDone:BOOL;
+	P1in AT %IW10:UINT;
+	P1out AT %QW1:UINT;
+	P2in AT %IW12:UINT;
+	P2out AT %QW3:UINT;
+	P3out AT %QW2:UINT;
+	P3in AT %IW11:UINT;
+	P4in AT %IW13:UINT;
+	P4out AT %QW4:UINT;
+	save:BOOL:=FALSE;
+	pmin:INT:=800;
+	pmax:INT:=3000;
+	Start:BOOL:=FALSE;
+	p1temp:REAL;
+	p2temp:REAL;
+	p3temp:REAL;
+	p4temp:REAL;
+	J2Y AT %IW1:INT;
+	J2X AT %IW2:INT;
+	J2up AT %IX18.3:BOOL;
+	J2down AT %IX18.5:BOOL;
+	J2left AT %IX18.6:BOOL;
+	J2right AT %IX18.7:BOOL;
+	testdown:BOOL;
+	Pdown:BOOL:=FALSE;
+	increment:INT:=15;
+	Anamode:BOOL;
+	Digimode:BOOL;
+	Button1 AT %IX18.1:BOOL;
+	Button2 AT %IX18.0:BOOL;
+	Power1 AT %QX0.0:BOOL;
+	Power2 AT %QX0.1:BOOL;
+	Power3 AT %QX0.2:BOOL;
+END_VAR
