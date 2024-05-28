@@ -1,0 +1,100 @@
+IF NOT initDone THEN
+	P1out:=pmin;
+	P2out:=pmin;
+	P3out:=pmin;
+	P4out:=pmin;
+	initDone:=TRUE;
+	Digimode:=TRUE;
+END_IF
+IF Button1=TRUE THEN
+	Anamode:=FALSE;
+	Digimode:=TRUE;
+ELSIF Button2=TRUE THEN
+	Digimode:=FALSE;
+	Anamode:=TRUE;
+END_IF
+IF Start=TRUE AND Digimode=TRUE THEN
+	IF J2Y>=5000 AND J2up=TRUE AND P3out<=pmin AND P1out<pmax THEN
+		P1out:= P1out+increment;
+		P3out:=pmin;
+	ELSIF J2Y>=5000 AND J2up=TRUE AND P3out>pmin THEN
+		P3out:= P3out-increment;
+		P1out:=pmin;
+	ELSIF J2Y>=5000 AND J2down=TRUE AND P1out<=pmin AND P3out<pmax THEN
+		P3out:= P3out+increment;
+		P1out:=pmin;
+	ELSIF J2Y>=5000 AND J2down=TRUE AND P1out>pmin THEN
+		P1out:=P1out-increment;
+		p3out:=pmin;
+	END_IF
+	IF J2X>=5000 AND J2right=TRUE AND P4out<=pmin AND P2out<pmax THEN
+		P2out:= P2out+increment;
+		P4out:=pmin;
+	ELSIF J2X>=5000 AND J2right=TRUE AND P4out>pmin THEN
+		P4out:= P4out-increment;
+		P2out:=pmin;
+	ELSIF J2X>=5000 AND J2left=TRUE AND P2out<=pmin AND P4out<pmax THEN
+		P4out:= P4out+increment;
+		P2out:=pmin;
+	ELSIF J2X>=5000 AND J2left=TRUE AND P2out>pmin THEN
+		P2out:=P2out-increment;
+		P4out:=pmin;
+	END_IF
+/////////////////////////////////////////////////////////////////////
+
+ELSIF Start=TRUE AND Anamode=TRUE THEN
+	IF J2Y>=5000 AND J2up=TRUE AND P3out<=5000 AND P1out<pmax THEN
+		p1temp:=EXPT(INT_TO_REAL(J2Y)/28000,2)*INT_TO_REAL(pmax);
+		IF p1temp<pmin THEN
+			p1temp:=pmin;
+		END_IF
+		P1out:=REAL_TO_UINT(p1temp);
+		P3temp:=UINT_TO_REAL(P1in)/((UINT_TO_REAL(P1in)-450)/400);
+		IF P3temp<= pmax THEN
+			P3out:=REAL_TO_UINT(P3temp);
+		ELSE
+			P3out:=pmin;
+		END_IF
+
+	ELSIF J2Y>=5000 AND J2down=TRUE AND P1out<=5000 AND P3out<pmax THEN
+		P3temp:=EXPT(INT_TO_REAL(J2Y)/28000,2)*INT_TO_REAL(pmax);
+		IF p3temp<pmin THEN
+			p3temp:=pmin;
+		END_IF
+		P3out:= REAL_TO_UINT(P3temp);
+		P1temp:=UINT_TO_REAL(P3in)/((UINT_TO_REAL(P3in)-450)/400);
+		IF P1temp<=pmax THEN
+			P1out:=REAL_TO_UINT(P1temp);
+		ELSE
+			P1out:=pmin;
+		END_IF
+
+	END_IF
+	
+	IF J2X>=5000 AND J2right=TRUE AND P4out<=5000 AND P2out<pmax THEN
+		p2temp:=EXPT(INT_TO_REAL(J2X)/28000,2)*INT_TO_REAL(pmax);
+		IF p2temp<pmin THEN
+			p2temp:=pmin;
+		END_IF
+		P2out:=REAL_TO_UINT(p2temp);
+		P4temp:=UINT_TO_REAL(P2in)/((UINT_TO_REAL(P2in)-450)/400);
+		IF P4temp<=pmax THEN
+			P4out:=REAL_TO_UINT(P4temp);
+		ELSE
+			P4out:=pmin;
+		END_IF
+
+	ELSIF J2X>=5000 AND J2left=TRUE AND P2out<=5000 AND P4out<pmax THEN
+		P4temp:=EXPT(INT_TO_REAL(J2X)/28000,2)*INT_TO_REAL(pmax);
+		IF p4temp<pmin THEN
+			p4temp:=pmin;
+		END_IF
+		P4out:= REAL_TO_UINT(P4temp);
+		P2temp:=UINT_TO_REAL(P4in)/((UINT_TO_REAL(P4in)-450)/400);
+		IF P2temp<=pmax THEN
+			P2out:=REAL_TO_UINT(P2temp);
+		ELSE
+			P2out:=pmin;
+		END_IF
+	END_IF
+END_IF
